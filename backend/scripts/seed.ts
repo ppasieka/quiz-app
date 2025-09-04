@@ -18,35 +18,44 @@ async function main() {
         choices: [
           { text: 'var', isCorrect: false },
           { text: 'let', isCorrect: false },
-          { text: 'const', isCorrect: true }
-        ]
+          { text: 'const', isCorrect: true },
+        ],
       },
       {
         text: 'What is the result of typeof null?',
         choices: [
           { text: 'null', isCorrect: false },
           { text: 'object', isCorrect: true },
-          { text: 'undefined', isCorrect: false }
-        ]
+          { text: 'undefined', isCorrect: false },
+        ],
       },
       {
         text: 'Which of these is NOT a primitive?',
         choices: [
           { text: 'number', isCorrect: false },
           { text: 'boolean', isCorrect: false },
-          { text: 'object', isCorrect: true }
-        ]
-      }
-    ]
+          { text: 'object', isCorrect: true },
+        ],
+      },
+    ],
   };
 
   await db.exec('BEGIN');
   try {
-    const res = await db.run('INSERT INTO quizzes (title, description) VALUES (?, ?)', demo.title, demo.description ?? null);
+    const res = await db.run(
+      'INSERT INTO quizzes (title, description) VALUES (?, ?)',
+      demo.title,
+      demo.description ?? null,
+    );
     const quizId = res.lastID!;
     for (let qi = 0; qi < demo.questions.length; qi++) {
       const q = demo.questions[qi];
-      const qRes = await db.run('INSERT INTO questions (quiz_id, text, ord) VALUES (?, ?, ?)', quizId, q.text, qi);
+      const qRes = await db.run(
+        'INSERT INTO questions (quiz_id, text, ord) VALUES (?, ?, ?)',
+        quizId,
+        q.text,
+        qi,
+      );
       const questionId = qRes.lastID!;
       for (let ci = 0; ci < q.choices.length; ci++) {
         const c = q.choices[ci];
@@ -55,7 +64,7 @@ async function main() {
           questionId,
           c.text,
           c.isCorrect ? 1 : 0,
-          ci
+          ci,
         );
       }
     }
@@ -71,4 +80,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

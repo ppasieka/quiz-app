@@ -1,11 +1,17 @@
-import type { CreateQuizDTO, Quiz, QuizSummary, SubmitQuizDTO, SubmitResultDTO } from '@shared/types';
+import type {
+  CreateQuizDTO,
+  Quiz,
+  QuizSummary,
+  SubmitQuizDTO,
+  SubmitResultDTO,
+} from '@shared/types';
 
 const BASE = '/api';
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     headers: { 'Content-Type': 'application/json' },
-    ...init
+    ...init,
   });
   if (!res.ok) {
     let msg = `HTTP ${res.status}`;
@@ -20,8 +26,9 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   getQuizzes: () => http<QuizSummary[]>('/quizzes'),
-  createQuiz: (dto: CreateQuizDTO) => http<{ id: number }>('/quizzes', { method: 'POST', body: JSON.stringify(dto) }),
+  createQuiz: (dto: CreateQuizDTO) =>
+    http<{ id: number }>('/quizzes', { method: 'POST', body: JSON.stringify(dto) }),
   getQuizById: (id: number) => http<Quiz>(`/quizzes/${id}`),
-  submitQuiz: (id: number, dto: SubmitQuizDTO) => http<SubmitResultDTO>(`/quizzes/${id}/submit`, { method: 'POST', body: JSON.stringify(dto) })
+  submitQuiz: (id: number, dto: SubmitQuizDTO) =>
+    http<SubmitResultDTO>(`/quizzes/${id}/submit`, { method: 'POST', body: JSON.stringify(dto) }),
 };
-

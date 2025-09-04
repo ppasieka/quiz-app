@@ -1,49 +1,343 @@
 :root {
   --bg: #0b0c10;
-  --panel: #151924;
+  --panel: #121625;
+  --panel-border: #23283b;
   --text: #eaf0f6;
-  --muted: #9a9fb0;
+  --muted: #9aa1b6;
   --primary: #61dafb;
-  --danger: #f44336;
-  --good: #00c853;
+  --primary-ink: #07222a;
+  --danger: #ef5350;
+  --good: #2ecc71;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-* { box-sizing: border-box; }
-html, body, #root { height: 100%; }
-body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--text); }
-a { color: var(--primary); text-decoration: none; }
+* {
+  box-sizing: border-box;
+}
 
-.container { max-width: 900px; margin: 0 auto; padding: 16px; }
-.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.header h1 { margin: 0; font-size: 20px; }
-.header nav { display: flex; gap: 12px; }
+html,
+body,
+#root {
+  height: 100%;
+}
 
-main { margin-top: 16px; }
-.footer { margin-top: 32px; font-size: 12px; color: var(--muted); text-align: center; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1000px 500px at 10% -20%, #12203a 0, transparent 60%), var(--bg);
+  color: var(--text);
+}
 
-.actions { margin-bottom: 12px; }
-.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-.card { background: var(--panel); border: 1px solid #22283a; padding: 12px; border-radius: 8px; }
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
 
-.row { display: flex; align-items: center; gap: 8px; }
-.row.spread { justify-content: space-between; }
-.flex-1 { flex: 1 1 auto; }
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-.form { display: grid; gap: 12px; }
-.form label { display: grid; gap: 6px; }
-.form input[type="text"], .form input:not([type]) , .form input { background: #0f1320; color: var(--text); border: 1px solid #2a2f44; border-radius: 6px; padding: 8px; }
-.form input:focus { outline: 2px solid #2e3759; }
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
 
-button, .button, a.button { background: #2a2f44; color: var(--text); border: 1px solid #3b4160; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
-button.primary, .primary { background: var(--primary); color: #00212a; border: none; }
-button.danger, .danger { background: var(--danger); color: white; border: none; }
-button:disabled { opacity: 0.6; cursor: not-allowed; }
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+}
 
-.muted { color: var(--muted); }
-.error { color: var(--danger); }
-.good { color: var(--good); }
-.bad { color: var(--danger); }
+.header nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
 
-.questions { display: grid; gap: 12px; }
-.choices { display: grid; gap: 6px; }
+main {
+  margin-top: 16px;
+}
 
+.footer {
+  margin-top: 32px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.actions {
+  margin-bottom: 12px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row.spread {
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1 1 auto;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+}
+
+.form input[type="text"],
+.form input:not([type]),
+.form input {
+  background: #0f1320;
+  color: var(--text);
+  border: 1px solid #2a2f44;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.form input:focus {
+  outline: 2px solid #2e3759;
+}
+
+button,
+.button,
+a.button,
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  background: #2a2f44;
+  color: var(--text);
+  border: 1px solid #3b4160;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+}
+
+button:hover,
+.button:hover,
+a.button:hover,
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+  border-color: #4a5275;
+}
+
+button:active,
+.button:active,
+a.button:active,
+.primary:active {
+  transform: translateY(0);
+}
+
+button:focus-visible,
+.button:focus-visible,
+a.button:focus-visible,
+.primary:focus-visible {
+  outline: 2px solid #6b79ad;
+  outline-offset: 2px;
+}
+
+button.primary,
+a.button.primary,
+.primary {
+  background: linear-gradient(180deg, #8ee9ff, #61dafb);
+  color: var(--primary-ink);
+  border: 1px solid #6ed7f4;
+}
+
+button.danger,
+a.button.danger,
+.danger {
+  background: linear-gradient(180deg, #ff7a73, #ef5350);
+  color: #fff;
+  border: none;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  color: var(--danger);
+}
+
+.good {
+  color: var(--good);
+}
+
+.bad {
+  color: var(--danger);
+}
+
+.questions {
+  display: grid;
+  gap: 14px;
+}
+
+.choices {
+  display: grid;
+  gap: 8px;
+}
+
+/* Improved answer selection */
+.choices label.row {
+  position: relative;
+  border: 1px solid #2a2f44;
+  background: #0f1320;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color .12s ease, box-shadow .12s ease, background .12s ease;
+}
+
+.choices label.row:hover {
+  border-color: #3b4160;
+}
+
+.choices label.row input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  inset: 0;
+  width: 0;
+  height: 0;
+}
+
+.choices label.row span {
+  display: block;
+  width: 100%;
+  padding-left: 28px;
+  position: relative;
+}
+
+.choices label.row span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #6a7090;
+  background: transparent;
+  box-shadow: inset 0 0 0 2px transparent;
+  transition: all .12s ease;
+}
+
+.choices label.row input[type="radio"]:checked+span {
+  background: linear-gradient(180deg, rgba(97, 218, 251, 0.08), rgba(97, 218, 251, 0.02));
+  border-radius: 8px;
+}
+
+.choices label.row input[type="radio"]:checked+span::before {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 6px var(--primary);
+}
+
+.choices label.row input[type="radio"]:focus-visible+span {
+  outline: 2px solid #6b79ad;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* CreateQuiz choice styling */
+.choice-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0f1320;
+  border: 1px solid #2a2f44;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.choice-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #2a2f44;
+  background: #121831;
+  cursor: pointer;
+  transition: border-color .12s ease, background .12s ease, box-shadow .12s ease;
+}
+
+.choice-check:hover {
+  border-color: #3b4160;
+}
+
+.choice-check input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.choice-check .dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #6a7090;
+  box-shadow: inset 0 0 0 2px transparent;
+  transition: all .12s ease;
+}
+
+.choice-check input[type="radio"]:checked+.dot {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 6px var(--primary);
+}
+
+.choice-check input[type="radio"]:focus-visible+.dot {
+  outline: 2px solid #6b79ad;
+  outline-offset: 2px;
+}

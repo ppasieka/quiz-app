@@ -14,12 +14,15 @@ export default function TakeQuiz() {
 
   useEffect(() => {
     if (!Number.isFinite(quizId)) return;
-    api.getQuizById(quizId).then(setQuiz).catch((e) => setError(e.message));
+    api
+      .getQuizById(quizId)
+      .then(setQuiz)
+      .catch((e) => setError(e.message));
   }, [quizId]);
 
   const valid = useMemo(() => {
     if (!quiz) return false;
-    return quiz.questions.every(q => !!answers[q.id!]);
+    return quiz.questions.every((q) => !!answers[q.id!]);
   }, [quiz, answers]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -28,7 +31,7 @@ export default function TakeQuiz() {
     setSubmitting(true);
     try {
       const dto = {
-        answers: quiz.questions.map(q => ({ questionId: q.id!, choiceId: answers[q.id!]! }))
+        answers: quiz.questions.map((q) => ({ questionId: q.id!, choiceId: answers[q.id!]! })),
       };
       const result = await api.submitQuiz(quiz.id, dto);
       navigate(`/quiz/${quiz.id}/summary`, { state: { result, title: quiz.title } });
@@ -50,15 +53,17 @@ export default function TakeQuiz() {
           <div className="questions">
             {quiz.questions.map((q, i) => (
               <div key={q.id} className="card">
-                <h3>Q{i + 1}. {q.text}</h3>
+                <h3>
+                  Q{i + 1}. {q.text}
+                </h3>
                 <div className="choices">
-                  {q.choices.map(c => (
+                  {q.choices.map((c) => (
                     <label key={c.id} className="row">
                       <input
                         type="radio"
                         name={`q-${q.id}`}
                         checked={answers[q.id!] === c.id}
-                        onChange={() => setAnswers(a => ({ ...a, [q.id!]: c.id }))}
+                        onChange={() => setAnswers((a) => ({ ...a, [q.id!]: c.id }))}
                         required
                       />
                       <span>{c.text}</span>
@@ -78,4 +83,3 @@ export default function TakeQuiz() {
     </section>
   );
 }
-

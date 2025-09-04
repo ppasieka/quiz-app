@@ -42,4 +42,3 @@ export async function initDb(db?: Database) {
     CREATE INDEX IF NOT EXISTS idx_choices_question_id ON choices(question_id);
   `);
 }
-

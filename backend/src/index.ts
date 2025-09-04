@@ -1,7 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import { getDb } from './db.js';
-import type { CreateQuizDTO, SubmitQuizDTO, SubmitResultDTO, Quiz, QuizSummary } from '@shared/types';
+import type {
+  CreateQuizDTO,
+  SubmitQuizDTO,
+  SubmitResultDTO,
+  Quiz,
+  QuizSummary,
+} from '@shared/types';
 
 const app = express();
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -21,14 +27,21 @@ class ApiError extends Error {
 app.get('/api/quizzes', async (_req, res, next) => {
   try {
     const db = await getDb();
-    const rows = await db.all<{ id: number; title: string; description: string | null; questionCount: number }[]>(
+    const rows = await db.all<
+      { id: number; title: string; description: string | null; questionCount: number }[]
+    >(
       `SELECT q.id, q.title, q.description, COUNT(que.id) AS questionCount
        FROM quizzes q
        LEFT JOIN questions que ON que.quiz_id = q.id
        GROUP BY q.id
-       ORDER BY q.created_at DESC`
+       ORDER BY q.created_at DESC`,
     );
-    const out: QuizSummary[] = rows.map(r => ({ id: r.id, title: r.title, description: r.description ?? undefined, questionCount: r.questionCount }));
+    const out: QuizSummary[] = rows.map((r) => ({
+      id: r.id,
+      title: r.title,
+      description: r.description ?? undefined,
+      questionCount: r.questionCount,
+    }));
     res.json(out);
   } catch (err) {
     next(err);
@@ -43,11 +56,20 @@ app.post('/api/quizzes', async (req, res, next) => {
     const db = await getDb();
     await db.exec('BEGIN');
     try {
-      const result = await db.run('INSERT INTO quizzes (title, description) VALUES (?, ?)', body.title.trim(), body.description?.trim() ?? null);
+      const result = await db.run(
+        'INSERT INTO quizzes (title, description) VALUES (?, ?)',
+        body.title.trim(),
+        body.description?.trim() ?? null,
+      );
       const quizId = result.lastID!;
       for (let qi = 0; qi < body.questions.length; qi++) {
         const q = body.questions[qi];
-        const qRes = await db.run('INSERT INTO questions (quiz_id, text, ord) VALUES (?, ?, ?)', quizId, q.text.trim(), qi);
+        const qRes = await db.run(
+          'INSERT INTO questions (quiz_id, text, ord) VALUES (?, ?, ?)',
+          quizId,
+          q.text.trim(),
+          qi,
+        );
         const questionId = qRes.lastID!;
         for (let ci = 0; ci < q.choices.length; ci++) {
           const c = q.choices[ci];
@@ -56,7 +78,7 @@ app.post('/api/quizzes', async (req, res, next) => {
             questionId,
             c.text.trim(),
             c.isCorrect ? 1 : 0,
-            ci
+            ci,
           );
         }
       }
@@ -79,32 +101,32 @@ app.get('/api/quizzes/:id', async (req, res, next) => {
     const db = await getDb();
     const quiz = await db.get<{ id: number; title: string; description: string | null }>(
       'SELECT id, title, description FROM quizzes WHERE id = ? LIMIT 1',
-      id
+      id,
     );
     if (!quiz) throw new ApiError(404, 'Quiz not found');
     const questions = await db.all<{ id: number; text: string; ord: number }[]>(
       'SELECT id, text, ord FROM questions WHERE quiz_id = ? ORDER BY ord ASC, id ASC',
-      id
+      id,
     );
-    const qIds = questions.map(q => q.id);
+    const qIds = questions.map((q) => q.id);
     const choices = qIds.length
       ? await db.all<{ id: number; question_id: number; text: string; ord: number }[]>(
           `SELECT id, question_id, text, ord FROM choices WHERE question_id IN (${qIds.map(() => '?').join(',')}) ORDER BY ord ASC, id ASC`,
-          ...qIds
+          ...qIds,
         )
       : [];
     const quizOut: Quiz = {
       id: quiz.id,
       title: quiz.title,
       description: quiz.description ?? undefined,
-      questions: questions.map(q => ({
+      questions: questions.map((q) => ({
         id: q.id,
         text: q.text,
         ord: q.ord,
         choices: choices
-          .filter(c => c.question_id === q.id)
-          .map(c => ({ id: c.id, text: c.text, ord: c.ord, isCorrect: false })) // do not leak correctness
-      }))
+          .filter((c) => c.question_id === q.id)
+          .map((c) => ({ id: c.id, text: c.text, ord: c.ord, isCorrect: false })), // do not leak correctness
+      })),
     };
     res.json(quizOut);
   } catch (err) {
@@ -123,13 +145,13 @@ app.post('/api/quizzes/:id/submit', async (req, res, next) => {
     const db = await getDb();
     const questions = await db.all<{ id: number }[]>(
       'SELECT id FROM questions WHERE quiz_id = ? ORDER BY ord ASC, id ASC',
-      id
+      id,
     );
     if (questions.length === 0) throw new ApiError(404, 'Quiz not found');
-    const qIds = questions.map(q => q.id);
+    const qIds = questions.map((q) => q.id);
     const correctRows = await db.all<{ question_id: number; id: number }[]>(
       `SELECT question_id, id FROM choices WHERE question_id IN (${qIds.map(() => '?').join(',')}) AND is_correct = 1`,
-      ...qIds
+      ...qIds,
     );
 
     const correctByQ = new Map<number, number>();
@@ -149,9 +171,9 @@ app.post('/api/quizzes/:id/submit', async (req, res, next) => {
     });
 
     const result: SubmitResultDTO = {
-      score: perQuestion.filter(p => p.correct).length,
+      score: perQuestion.filter((p) => p.correct).length,
       total: perQuestion.length,
-      perQuestion
+      perQuestion,
     };
 
     res.json(result);
@@ -201,4 +223,3 @@ app.use((err: any, _req: express.Request, res: express.Response, _next: express.
 app.listen(PORT, () => {
   console.log(`Backend listening on http://localhost:${PORT}`);
 });
-

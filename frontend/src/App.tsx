@@ -8,10 +8,14 @@ export default function App() {
   return (
     <div className="container">
       <header className="header">
-        <h1><Link to="/">Quiz App</Link></h1>
+        <h1>
+          <Link to="/">Quiz App</Link>
+        </h1>
         <nav>
           <Link to="/">Home</Link>
-          <Link to="/create" className="primary">Create Quiz</Link>
+          <Link to="/create" className="button primary">
+            Create Quiz
+          </Link>
         </nav>
       </header>
       <main>
@@ -26,4 +30,3 @@ export default function App() {
     </div>
   );
 }
-

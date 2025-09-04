@@ -22,7 +22,9 @@ export default function QuizSummary() {
   return (
     <section>
       <h2>Summary{title ? ` — ${title}` : ''}</h2>
-      <p>Score: <strong>{result.score}</strong> / {result.total}</p>
+      <p>
+        Score: <strong>{result.score}</strong> / {result.total}
+      </p>
       <ul className="list">
         {result.perQuestion.map((pq, i) => (
           <li key={pq.questionId} className="row spread">
@@ -32,9 +34,10 @@ export default function QuizSummary() {
         ))}
       </ul>
       <div className="row">
-        <button className="primary" onClick={() => navigate('/')}>Back to list</button>
+        <button className="primary" onClick={() => navigate('/')}>
+          Back to list
+        </button>
       </div>
     </section>
   );
 }
-
