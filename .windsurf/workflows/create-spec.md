@@ -1,6 +1,6 @@
 ---
 description: Create Spec
-auto_execution_mode: 1
+auto_execution_mode: 3
 ---
 
 Create a detailed spec for a new feature with technical specifications and task breakdown
