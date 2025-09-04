@@ -6,7 +6,7 @@ A modern, minimal monorepo starter for a quiz application.
 - Backend: Express 5 (TS), SQLite via `sqlite` + `sqlite3`
 - Shared: TypeScript types shared between FE/BE
 
-No unnecessary deps: React, react-router-dom, Express, sqlite/sqlite3, cors, tsx, typescript (and concurrently to run both apps).
+Minimal deps: React, react-router-dom, Express, sqlite/sqlite3, cors, typescript (and concurrently to run both apps). Type packages are dev-only.
 
 ## Repository Layout
 
@@ -42,19 +42,19 @@ Backend will be available at `http://localhost:3000`, and frontend at `http://lo
 ## Scripts
 
 - Root
-  - `pnpm build` – builds all packages
-  - `pnpm dev` – runs FE + BE together
-  - `pnpm dev:fe` – frontend dev only
-  - `pnpm dev:be` – backend dev only
-- Backend
-  - `pnpm dev` – run with `tsx` (watch)
-  - `pnpm build` – type check and build to `dist/`
-  - `pnpm start` – run compiled JS
-  - `pnpm seed` – seed database with a demo quiz
-- Frontend
-  - `pnpm dev` – Vite dev server
-  - `pnpm build` – type check and build
-  - `pnpm preview` – preview built app
+  - `npm run build` – builds all workspaces
+  - `npm run dev` – runs FE + BE together
+  - `npm run dev:fe` – frontend dev only
+  - `npm run dev:be` – backend dev only
+- Backend (`backend/`)
+  - `npm run dev` – prebuild once, then watch (`tsc -w`) and run Node with watch
+  - `npm run build` – type check and emit to `dist/` (preserves folder structure)
+  - `npm run start` – run compiled server (`node dist/src/index.js`)
+  - `npm run seed` – build then seed demo quiz (`dist/scripts/seed.js`)
+- Frontend (`frontend/`)
+  - `npm run dev` – Vite dev server (proxies `/api` to `http://localhost:3000`)
+  - `npm run build` – type check and Vite build
+  - `npm run preview` – preview built app
 
 ## API
 
@@ -103,3 +103,5 @@ On create, server validates there’s exactly one `is_correct` per question.
 - Strict TypeScript across packages.
 - ES modules in the backend (`"type": "module"`).
 - Path alias `@shared/*` set in TS configs and Vite alias for FE.
+- Vite dev server proxies `/api` → `http://localhost:3000`.
+- Override DB path with `DATABASE_FILE` env; default is `data.sqlite`.
