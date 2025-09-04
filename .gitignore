@@ -1,0 +1,12 @@
+node_modules
+**/node_modules
+.DS_Store
+
+# build outputs
+frontend/dist
+backend/dist
+
+# sqlite db
+*.sqlite
+*.sqlite-journal
+

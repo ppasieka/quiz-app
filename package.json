@@ -1,0 +1,23 @@
+{
+  "name": "quiz_app",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "build": "npm run -w shared build && npm run -w backend build && npm run -w frontend build",
+    "dev:fe": "npm run -w frontend dev",
+    "dev:be": "npm run -w backend dev",
+    "dev": "concurrently -k -n FE,BE -p '[{name}]' 'npm run dev:fe' 'npm run dev:be'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "@types/node": "^22.10.1"
+  }
+}
