@@ -24,7 +24,18 @@ body,
 
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    Noto Sans,
+    Arial,
+    'Apple Color Emoji',
+    'Segoe UI Emoji';
   background: radial-gradient(1000px 500px at 10% -20%, #12203a 0, transparent 60%), var(--bg);
   color: var(--text);
 }
@@ -87,7 +98,9 @@ main {
   padding: 14px;
   border-radius: 12px;
   box-shadow: var(--shadow-sm);
-  transition: transform .15s ease, box-shadow .15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .card:hover {
@@ -119,7 +132,7 @@ main {
   gap: 6px;
 }
 
-.form input[type="text"],
+.form input[type='text'],
 .form input:not([type]),
 .form input {
   background: #0f1320;
@@ -149,7 +162,11 @@ a.button,
   cursor: pointer;
   font-weight: 600;
   box-shadow: var(--shadow-sm);
-  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease,
+    border-color 0.12s ease;
 }
 
 button:hover,
@@ -233,14 +250,17 @@ button:disabled {
   border-radius: 12px;
   padding: 10px 12px;
   cursor: pointer;
-  transition: border-color .12s ease, box-shadow .12s ease, background .12s ease;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
 }
 
 .choices label.row:hover {
   border-color: #3b4160;
 }
 
-.choices label.row input[type="radio"] {
+.choices label.row input[type='radio'] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -257,7 +277,7 @@ button:disabled {
 }
 
 .choices label.row span::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 50%;
@@ -268,20 +288,20 @@ button:disabled {
   border: 2px solid #6a7090;
   background: transparent;
   box-shadow: inset 0 0 0 2px transparent;
-  transition: all .12s ease;
+  transition: all 0.12s ease;
 }
 
-.choices label.row input[type="radio"]:checked+span {
+.choices label.row input[type='radio']:checked + span {
   background: linear-gradient(180deg, rgba(97, 218, 251, 0.08), rgba(97, 218, 251, 0.02));
   border-radius: 8px;
 }
 
-.choices label.row input[type="radio"]:checked+span::before {
+.choices label.row input[type='radio']:checked + span::before {
   border-color: var(--primary);
   box-shadow: inset 0 0 0 6px var(--primary);
 }
 
-.choices label.row input[type="radio"]:focus-visible+span {
+.choices label.row input[type='radio']:focus-visible + span {
   outline: 2px solid #6b79ad;
   outline-offset: 2px;
   border-radius: 8px;
@@ -308,14 +328,17 @@ button:disabled {
   border: 1px solid #2a2f44;
   background: #121831;
   cursor: pointer;
-  transition: border-color .12s ease, background .12s ease, box-shadow .12s ease;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
 }
 
 .choice-check:hover {
   border-color: #3b4160;
 }
 
-.choice-check input[type="radio"] {
+.choice-check input[type='radio'] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -329,15 +352,15 @@ button:disabled {
   border-radius: 50%;
   border: 2px solid #6a7090;
   box-shadow: inset 0 0 0 2px transparent;
-  transition: all .12s ease;
+  transition: all 0.12s ease;
 }
 
-.choice-check input[type="radio"]:checked+.dot {
+.choice-check input[type='radio']:checked + .dot {
   border-color: var(--primary);
   box-shadow: inset 0 0 0 6px var(--primary);
 }
 
-.choice-check input[type="radio"]:focus-visible+.dot {
+.choice-check input[type='radio']:focus-visible + .dot {
   outline: 2px solid #6b79ad;
   outline-offset: 2px;
 }

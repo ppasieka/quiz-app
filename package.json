@@ -15,8 +15,8 @@
     "dev:fe": "npm run -w frontend dev",
     "dev:be": "npm run -w backend dev",
     "dev": "concurrently -k -n FE,BE -p '[{name}]' 'npm run dev:fe' 'npm run dev:be'",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx}\""
+    "format": "prettier --write \"**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,css}\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
