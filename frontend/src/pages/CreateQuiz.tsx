@@ -122,27 +122,44 @@ export default function CreateQuiz() {
 
   return (
     <section>
-      <h2>Create Quiz</h2>
+      <div className="enterprise-header">
+        <h1>Create New Quiz</h1>
+        <p>Design engaging quizzes with multiple choice questions</p>
+      </div>
+      
       {error && <p className="error">{error}</p>}
       <form onSubmit={onSubmit} className="form">
-        <label>
-          <span>Title *</span>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required />
-        </label>
-        <label>
-          <span>Short description</span>
-          <input
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Optional"
-          />
-        </label>
+        <div className="card">
+          <h3>Quiz Details</h3>
+          <label>
+            <span>Quiz Title *</span>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter quiz title"
+              required
+            />
+          </label>
+          <label>
+            <span>Description</span>
+            <input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Brief description of your quiz (optional)"
+            />
+          </label>
+        </div>
 
         <div className="questions">
+          <div className="row spread">
+            <h3>Questions</h3>
+            <span className="muted">{questions.length} question{questions.length !== 1 ? 's' : ''}</span>
+          </div>
+          
           {questions.map((q, qi) => (
             <div className="card" key={qi}>
               <div className="row spread">
-                <h3>Question {qi + 1}</h3>
+                <h4>Question {qi + 1}</h4>
                 <div className="row">
                   {questions.length > 1 && (
                     <button
@@ -150,24 +167,28 @@ export default function CreateQuiz() {
                       className="button danger"
                       onClick={() => removeQuestion(qi)}
                     >
-                      Remove
+                      Remove Question
                     </button>
                   )}
                 </div>
               </div>
               <label>
-                <span>Text *</span>
+                <span>Question Text *</span>
                 <input
                   value={q.text}
                   onChange={(e) => updateQuestionText(qi, e.target.value)}
+                  placeholder="Enter your question"
                   required
                 />
               </label>
               <div className="choices">
-                <h4>Choices *</h4>
+                <div className="row spread">
+                  <h4>Answer Choices *</h4>
+                  <span className="muted">Select the correct answer</span>
+                </div>
                 {q.choices.map((c, ci) => (
                   <div className="choice-row" key={ci}>
-                    <label className="choice-check" title="Mark as correct">
+                    <label className="choice-check" title="Mark as correct answer">
                       <input
                         type="radio"
                         name={`correct-${qi}`}
@@ -181,7 +202,7 @@ export default function CreateQuiz() {
                       className="flex-1"
                       value={c.text}
                       onChange={(e) => updateChoiceText(qi, ci, e.target.value)}
-                      placeholder={`Choice ${ci + 1}`}
+                      placeholder={`Answer choice ${ci + 1}`}
                       required
                     />
                     {q.choices.length > 2 && (
@@ -195,8 +216,8 @@ export default function CreateQuiz() {
                     )}
                   </div>
                 ))}
-                <button type="button" className="button" onClick={() => addChoice(qi)}>
-                  Add choice
+                <button type="button" className="button secondary" onClick={() => addChoice(qi)}>
+                  + Add Choice
                 </button>
               </div>
             </div>
@@ -205,10 +226,14 @@ export default function CreateQuiz() {
 
         <div className="row">
           <button type="button" className="button" onClick={addQuestion}>
-            Add question
+            + Add Question
           </button>
-          <button type="submit" className="button primary" disabled={!valid || submitting}>
-            {submitting ? 'Creating…' : 'Create Quiz'}
+          <button
+            type="submit"
+            className="button primary pulse"
+            disabled={!valid || submitting}
+          >
+            {submitting ? 'Creating Quiz...' : 'Create Quiz'}
           </button>
         </div>
       </form>

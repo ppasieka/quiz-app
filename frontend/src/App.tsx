@@ -9,10 +9,10 @@ export default function App() {
     <div className="container">
       <header className="header">
         <h1>
-          <Link to="/">Quiz App</Link>
+          <Link to="/">QuizMaster Pro</Link>
         </h1>
         <nav>
-          <Link to="/">Home</Link>
+          <Link to="/">Dashboard</Link>
           <Link to="/create" className="button primary">
             Create Quiz
           </Link>
@@ -26,7 +26,10 @@ export default function App() {
           <Route path="/quiz/:id/summary" element={<QuizSummary />} />
         </Routes>
       </main>
-      <footer className="footer">Demo only. No auth. Keep it simple.</footer>
+      <footer className="footer">
+        <p>QuizMaster Pro - Enterprise Quiz Management System</p>
+        <p>Demo Version • No Authentication Required</p>
+      </footer>
     </div>
   );
 }

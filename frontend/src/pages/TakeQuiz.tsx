@@ -45,17 +45,26 @@ export default function TakeQuiz() {
   return (
     <section>
       {error && <p className="error">{error}</p>}
-      {!quiz && !error && <p>Loading…</p>}
+      {!quiz && !error && <p className="loading">Loading quiz...</p>}
       {quiz && (
         <form onSubmit={onSubmit} className="form">
-          <h2>{quiz.title}</h2>
-          {quiz.description && <p className="muted">{quiz.description}</p>}
+          <div className="enterprise-header">
+            <h1>{quiz.title}</h1>
+            {quiz.description && <p>{quiz.description}</p>}
+            <div className="row" style={{ marginTop: '1rem', justifyContent: 'center' }}>
+              <span className="status-indicator status-success">
+                {quiz.questions.length} question{quiz.questions.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          </div>
+          
           <div className="questions">
             {quiz.questions.map((q, i) => (
               <div key={q.id} className="card">
                 <h3>
-                  Q{i + 1}. {q.text}
+                  Question {i + 1}: {q.text}
                 </h3>
+                <p className="muted">Select the best answer from the choices below:</p>
                 <div className="choices">
                   {q.choices.map((c) => (
                     <label key={c.id} className="row">
@@ -73,10 +82,26 @@ export default function TakeQuiz() {
               </div>
             ))}
           </div>
-          <div className="row">
-            <button type="submit" className="primary" disabled={!valid || submitting}>
-              {submitting ? 'Submitting…' : 'Submit'}
-            </button>
+          
+          <div className="card" style={{ textAlign: 'center' }}>
+            <h3>Ready to submit?</h3>
+            <p className="muted">
+              {Object.keys(answers).length} of {quiz.questions.length} questions answered
+            </p>
+            <div className="row" style={{ justifyContent: 'center', marginTop: '1rem' }}>
+              <button
+                type="submit"
+                className="button primary pulse"
+                disabled={!valid || submitting}
+              >
+                {submitting ? 'Submitting Quiz...' : 'Submit Quiz'}
+              </button>
+            </div>
+            {!valid && (
+              <p className="muted" style={{ marginTop: '1rem', fontSize: '14px' }}>
+                Please answer all questions before submitting
+              </p>
+            )}
           </div>
         </form>
       )}
