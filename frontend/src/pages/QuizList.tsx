@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { QuizSummary } from '@shared/types';
 import { api } from '../api';
 
 export default function QuizList() {
+  const { t } = useTranslation();
   const [quizzes, setQuizzes] = useState<QuizSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,27 +19,27 @@ export default function QuizList() {
   return (
     <section>
       <div className="enterprise-header">
-        <h1>Quiz Dashboard</h1>
-        <p>Test your knowledge with our interactive quizzes</p>
+        <h1>{t('quiz:dashboard.title')}</h1>
+        <p>{t('quiz:dashboard.subtitle')}</p>
       </div>
       
       {error && <p className="error">{error}</p>}
-      {!quizzes && !error && <p className="loading">Loading quizzes...</p>}
+      {!quizzes && !error && <p className="loading">{t('common:status.loading')}</p>}
       {quizzes && quizzes.length === 0 && (
         <div className="empty-state">
-          <h3>No quizzes available</h3>
-          <p>Create your first quiz to get started!</p>
+          <h3>{t('quiz:dashboard.noQuizzes')}</h3>
+          <p>{t('quiz:dashboard.createFirst')}</p>
           <Link to="/create" className="button primary pulse">
-            Create Your First Quiz
+            {t('quiz:dashboard.createFirstButton')}
           </Link>
         </div>
       )}
       {quizzes && quizzes.length > 0 && (
         <div>
           <div className="row spread" style={{ marginBottom: '2rem' }}>
-            <h2>Available Quizzes</h2>
+            <h2>{t('quiz:dashboard.availableQuizzes')}</h2>
             <Link to="/create" className="button primary">
-              Create New Quiz
+              {t('quiz:dashboard.createNew')}
             </Link>
           </div>
           <ul className="list">
@@ -49,13 +51,16 @@ export default function QuizList() {
                     {q.description && <p className="muted">{q.description}</p>}
                     <p className="muted">
                       <span className="status-indicator status-success">
-                        {q.questionCount} question{q.questionCount !== 1 ? 's' : ''}
+                        {q.questionCount === 1
+                          ? t('quiz:dashboard.questionCount', { count: 1, plural: '' })
+                          : t('quiz:dashboard.questionCount', { count: q.questionCount, plural: 's' })
+                        }
                       </span>
                     </p>
                   </div>
                   <div className="row">
                     <Link className="button primary" to={`/quiz/${q.id}`}>
-                      Take Quiz
+                      {t('quiz:dashboard.takeQuiz')}
                     </Link>
                   </div>
                 </div>
@@ -64,6 +69,7 @@ export default function QuizList() {
           </ul>
         </div>
       )}
+      
     </section>
   );
 }

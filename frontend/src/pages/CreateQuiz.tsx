@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { CreateQuizDTO } from '@shared/types';
 import { api } from '../api';
 
@@ -7,6 +8,7 @@ type ChoiceLocal = { text: string; isCorrect: boolean };
 type QuestionLocal = { text: string; choices: ChoiceLocal[] };
 
 export default function CreateQuiz() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -114,7 +116,7 @@ export default function CreateQuiz() {
       const { id } = await api.createQuiz(dto);
       navigate(`/quiz/${id}`);
     } catch (e: any) {
-      setError(e.message || 'Failed to create');
+      setError(e.message || t('errors:failedToCreate'));
     } finally {
       setSubmitting(false);
     }
@@ -123,43 +125,48 @@ export default function CreateQuiz() {
   return (
     <section>
       <div className="enterprise-header">
-        <h1>Create New Quiz</h1>
-        <p>Design engaging quizzes with multiple choice questions</p>
+        <h1>{t('quiz:create.title')}</h1>
+        <p>{t('quiz:create.subtitle')}</p>
       </div>
       
       {error && <p className="error">{error}</p>}
       <form onSubmit={onSubmit} className="form">
         <div className="card">
-          <h3>Quiz Details</h3>
+          <h3>{t('quiz:create.details')}</h3>
           <label>
-            <span>Quiz Title *</span>
+            <span>{t('quiz:create.quizTitle')}</span>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter quiz title"
+              placeholder={t('quiz:create.quizTitlePlaceholder')}
               required
             />
           </label>
           <label>
-            <span>Description</span>
+            <span>{t('quiz:create.description')}</span>
             <input
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Brief description of your quiz (optional)"
+              placeholder={t('quiz:create.descriptionPlaceholder')}
             />
           </label>
         </div>
 
         <div className="questions">
           <div className="row spread">
-            <h3>Questions</h3>
-            <span className="muted">{questions.length} question{questions.length !== 1 ? 's' : ''}</span>
+            <h3>{t('quiz:create.questions')}</h3>
+            <span className="muted">
+              {questions.length === 1
+                ? t('quiz:dashboard.questionCount', { count: 1, plural: '' })
+                : t('quiz:dashboard.questionCount', { count: questions.length, plural: 's' })
+              }
+            </span>
           </div>
           
           {questions.map((q, qi) => (
             <div className="card" key={qi}>
               <div className="row spread">
-                <h4>Question {qi + 1}</h4>
+                <h4>{t('quiz:create.questionNumber', { number: qi + 1 })}</h4>
                 <div className="row">
                   {questions.length > 1 && (
                     <button
@@ -167,34 +174,34 @@ export default function CreateQuiz() {
                       className="button danger"
                       onClick={() => removeQuestion(qi)}
                     >
-                      Remove Question
+                      {t('common:buttons.remove')} {t('quiz:create.questions').toLowerCase()}
                     </button>
                   )}
                 </div>
               </div>
               <label>
-                <span>Question Text *</span>
+                <span>{t('quiz:create.questionText')}</span>
                 <input
                   value={q.text}
                   onChange={(e) => updateQuestionText(qi, e.target.value)}
-                  placeholder="Enter your question"
+                  placeholder={t('quiz:create.questionPlaceholder')}
                   required
                 />
               </label>
               <div className="choices">
                 <div className="row spread">
-                  <h4>Answer Choices *</h4>
-                  <span className="muted">Select the correct answer</span>
+                  <h4>{t('quiz:create.answerChoices')}</h4>
+                  <span className="muted">{t('quiz:create.selectCorrect')}</span>
                 </div>
                 {q.choices.map((c, ci) => (
                   <div className="choice-row" key={ci}>
-                    <label className="choice-check" title="Mark as correct answer">
+                    <label className="choice-check" title={t('quiz:create.selectCorrect')}>
                       <input
                         type="radio"
                         name={`correct-${qi}`}
                         checked={c.isCorrect}
                         onChange={() => markCorrect(qi, ci)}
-                        aria-label={`Mark choice ${ci + 1} as correct`}
+                        aria-label={t('quiz:create.selectCorrect') + ` ${ci + 1}`}
                       />
                       <span className="dot" aria-hidden="true"></span>
                     </label>
@@ -202,7 +209,7 @@ export default function CreateQuiz() {
                       className="flex-1"
                       value={c.text}
                       onChange={(e) => updateChoiceText(qi, ci, e.target.value)}
-                      placeholder={`Answer choice ${ci + 1}`}
+                      placeholder={t('quiz:create.answerPlaceholder', { number: ci + 1 })}
                       required
                     />
                     {q.choices.length > 2 && (
@@ -211,13 +218,13 @@ export default function CreateQuiz() {
                         className="button danger"
                         onClick={() => removeChoice(qi, ci)}
                       >
-                        Remove
+                        {t('common:buttons.remove')}
                       </button>
                     )}
                   </div>
                 ))}
                 <button type="button" className="button secondary" onClick={() => addChoice(qi)}>
-                  + Add Choice
+                  {t('quiz:create.addChoice')}
                 </button>
               </div>
             </div>
@@ -226,14 +233,14 @@ export default function CreateQuiz() {
 
         <div className="row">
           <button type="button" className="button" onClick={addQuestion}>
-            + Add Question
+            {t('quiz:create.addQuestion')}
           </button>
           <button
             type="submit"
             className="button primary pulse"
             disabled={!valid || submitting}
           >
-            {submitting ? 'Creating Quiz...' : 'Create Quiz'}
+            {submitting ? t('quiz:create.creating') : t('quiz:create.create')}
           </button>
         </div>
       </form>

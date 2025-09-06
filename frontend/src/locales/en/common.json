@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "QuizMaster Pro",
+    "subtitle": "Enterprise Quiz Management System",
+    "demo": "Demo Version • No Authentication Required"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "createQuiz": "Create Quiz"
+  },
+  "buttons": {
+    "back": "Back",
+    "create": "Create",
+    "submit": "Submit",
+    "remove": "Remove",
+    "add": "Add",
+    "retake": "Retake"
+  },
+  "status": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning"
+  }
+}

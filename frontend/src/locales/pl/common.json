@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "QuizMaster Pro",
+    "subtitle": "System zarządzania quizami dla przedsiębiorstw",
+    "demo": "Wersja demo • Brak wymaganej autoryzacji"
+  },
+  "navigation": {
+    "dashboard": "Panel główny",
+    "createQuiz": "Utwórz quiz"
+  },
+  "buttons": {
+    "back": "Wstecz",
+    "create": "Utwórz",
+    "submit": "Prześlij",
+    "remove": "Usuń",
+    "add": "Dodaj",
+    "retake": "Powtórz"
+  },
+  "status": {
+    "loading": "Ładowanie...",
+    "error": "Błąd",
+    "success": "Sukces",
+    "warning": "Ostrzeżenie"
+  }
+}

@@ -1,9 +1,11 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { SubmitResultDTO } from '@shared/types';
 
 type LocationState = { result: SubmitResultDTO; title?: string } | null;
 
 export default function QuizSummary() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,14 +15,14 @@ export default function QuizSummary() {
     return (
       <section>
         <div className="enterprise-header">
-          <h1>Quiz Summary</h1>
-          <p>No summary available for this quiz</p>
+          <h1>{t('quiz:summary.title')}</h1>
+          <p>{t('quiz:summary.noSummary')}</p>
         </div>
         <div className="empty-state">
-          <h3>Unable to load results</h3>
-          <p>Please try taking the quiz again to view your results.</p>
+          <h3>{t('quiz:summary.unableToLoad')}</h3>
+          <p>{t('quiz:summary.tryAgain')}</p>
           <button className="button primary" onClick={() => navigate(`/quiz/${id}`)}>
-            Back to Quiz
+            {t('quiz:summary.backToQuiz')}
           </button>
         </div>
       </section>
@@ -34,37 +36,37 @@ export default function QuizSummary() {
   return (
     <section>
       <div className="enterprise-header">
-        <h1>Quiz Complete!</h1>
+        <h1>{t('quiz:summary.complete')}</h1>
         {title && <h2>{title}</h2>}
       </div>
       
       <div className="card" style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <h3>Your Results</h3>
+        <h3>{t('quiz:summary.yourResults')}</h3>
         <div style={{ fontSize: '3rem', fontWeight: 'bold', margin: '1rem 0' }}>
           <span className={passed ? 'good' : 'bad'}>
-            {result.score} / {result.total}
+            {t('quiz:summary.score', { score: result.score, total: result.total })}
           </span>
         </div>
         <div style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
           <span className={passed ? 'good' : 'bad'}>
-            {percentage}% {passed ? 'Passed!' : 'Needs Improvement'}
+            {t('quiz:summary.percentage', { percentage })} {passed ? t('quiz:summary.passed') : t('quiz:summary.needsImprovement')}
           </span>
         </div>
         <div className="row" style={{ justifyContent: 'center', gap: '1rem' }}>
           <span className={`status-indicator ${passed ? 'status-success' : 'status-warning'}`}>
-            {passed ? '🎉 Excellent Work!' : '📚 Keep Practicing'}
+            {passed ? t('quiz:summary.excellent') : t('quiz:summary.keepPracticing')}
           </span>
         </div>
       </div>
 
       <div className="card">
-        <h3>Question Breakdown</h3>
+        <h3>{t('quiz:summary.questionBreakdown')}</h3>
         <ul className="list">
           {result.perQuestion.map((pq, i) => (
             <li key={pq.questionId} className="row spread">
-              <span><strong>Question {i + 1}</strong></span>
+              <span><strong>{t('quiz:create.questionNumber', { number: i + 1 })}</strong></span>
               <span className={pq.correct ? 'good' : 'bad'}>
-                {pq.correct ? '✓ Correct' : '✗ Incorrect'}
+                {pq.correct ? t('quiz:summary.correct') : t('quiz:summary.incorrect')}
               </span>
             </li>
           ))}
@@ -73,10 +75,10 @@ export default function QuizSummary() {
 
       <div className="row" style={{ justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
         <button className="button primary" onClick={() => navigate('/')}>
-          Back to Quiz List
+          {t('quiz:summary.backToList')}
         </button>
         <button className="button secondary" onClick={() => navigate(`/quiz/${id}`)}>
-          Retake Quiz
+          {t('quiz:summary.retake')}
         </button>
       </div>
     </section>

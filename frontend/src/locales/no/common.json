@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "QuizMaster Pro",
+    "subtitle": "Bedriftsquiz-administrasjonssystem",
+    "demo": "Demoversjon • Ingen autentisering påkrevd"
+  },
+  "navigation": {
+    "dashboard": "Kontrollpanel",
+    "createQuiz": "Opprett quiz"
+  },
+  "buttons": {
+    "back": "Tilbake",
+    "create": "Opprett",
+    "submit": "Send inn",
+    "remove": "Fjern",
+    "add": "Legg til",
+    "retake": "Ta på nytt"
+  },
+  "status": {
+    "loading": "Laster...",
+    "error": "Feil",
+    "success": "Vellykket",
+    "warning": "Advarsel"
+  }
+}

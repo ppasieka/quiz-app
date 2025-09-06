@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { Quiz } from '@shared/types';
 import { api } from '../api';
 
 export default function TakeQuiz() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const quizId = Number(id);
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ export default function TakeQuiz() {
       const result = await api.submitQuiz(quiz.id, dto);
       navigate(`/quiz/${quiz.id}/summary`, { state: { result, title: quiz.title } });
     } catch (e: any) {
-      setError(e.message || 'Submission failed');
+      setError(e.message || t('errors:submissionFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -45,7 +47,7 @@ export default function TakeQuiz() {
   return (
     <section>
       {error && <p className="error">{error}</p>}
-      {!quiz && !error && <p className="loading">Loading quiz...</p>}
+      {!quiz && !error && <p className="loading">{t('quiz:take.loading')}</p>}
       {quiz && (
         <form onSubmit={onSubmit} className="form">
           <div className="enterprise-header">
@@ -53,7 +55,10 @@ export default function TakeQuiz() {
             {quiz.description && <p>{quiz.description}</p>}
             <div className="row" style={{ marginTop: '1rem', justifyContent: 'center' }}>
               <span className="status-indicator status-success">
-                {quiz.questions.length} question{quiz.questions.length !== 1 ? 's' : ''}
+                {quiz.questions.length === 1
+                  ? t('quiz:dashboard.questionCount', { count: 1, plural: '' })
+                  : t('quiz:dashboard.questionCount', { count: quiz.questions.length, plural: 's' })
+                }
               </span>
             </div>
           </div>
@@ -62,9 +67,9 @@ export default function TakeQuiz() {
             {quiz.questions.map((q, i) => (
               <div key={q.id} className="card">
                 <h3>
-                  Question {i + 1}: {q.text}
+                  {t('quiz:take.questionNumber', { number: i + 1, text: q.text })}
                 </h3>
-                <p className="muted">Select the best answer from the choices below:</p>
+                <p className="muted">{t('quiz:take.selectBest')}</p>
                 <div className="choices">
                   {q.choices.map((c) => (
                     <label key={c.id} className="row">
@@ -84,9 +89,12 @@ export default function TakeQuiz() {
           </div>
           
           <div className="card" style={{ textAlign: 'center' }}>
-            <h3>Ready to submit?</h3>
+            <h3>{t('quiz:take.readyToSubmit')}</h3>
             <p className="muted">
-              {Object.keys(answers).length} of {quiz.questions.length} questions answered
+              {t('quiz:take.answeredCount', {
+                answered: Object.keys(answers).length,
+                total: quiz.questions.length
+              })}
             </p>
             <div className="row" style={{ justifyContent: 'center', marginTop: '1rem' }}>
               <button
@@ -94,12 +102,12 @@ export default function TakeQuiz() {
                 className="button primary pulse"
                 disabled={!valid || submitting}
               >
-                {submitting ? 'Submitting Quiz...' : 'Submit Quiz'}
+                {submitting ? t('quiz:take.submitting') : t('quiz:take.submit')}
               </button>
             </div>
             {!valid && (
               <p className="muted" style={{ marginTop: '1rem', fontSize: '14px' }}>
-                Please answer all questions before submitting
+                {t('quiz:take.answerAll')}
               </p>
             )}
           </div>
