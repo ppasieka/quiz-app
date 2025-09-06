@@ -13,6 +13,7 @@
 - [x] Typed REST API + shared TS models — FE/BE type safety via shared package. `S`
 - [x] SQLite persistence + schema — Durable storage with FK constraints. `S`
 - [x] Seed script — Demo quiz for quick start. `XS`
+- [x] Multi-language support — English (default), Norwegian, and Polish language support with language switcher UI. `M`
 
 ### Dependencies
 
@@ -53,7 +54,6 @@
 - [ ] Dockerization — Dockerfile + container-based deployment. `M`
 - [ ] Deployment target(s) — Configure hosting (app/assets/DB). `M`
 - [ ] Accessibility & performance polish — A11y checks and perf audits. `S`
-- [ ] Internationalization (i18n) — Framework for translations. `L`
 
 ### Dependencies
 
